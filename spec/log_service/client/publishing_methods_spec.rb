@@ -314,14 +314,14 @@ describe LogService::Client::PublishingMethods do
   describe "beacon_url" do
     it "should return a url with a base-64 encoded json param" do
       client.beacon_url("sign_ups", { :name => "Bob" }).should ==
-        "#{api_url}/3.0/projects/12345/events/sign_ups?api_key=#{write_key}&data=eyJuYW1lIjoiQm9iIn0="
+        "#{api_url}/projects/12345/events/sign_ups?api_key=#{write_key}&data=eyJuYW1lIjoiQm9iIn0="
     end
   end
 
   describe "redirect_url" do
     it "should return a url with a base-64 encoded json param and an encoded redirect url" do
       client.redirect_url("sign_ups", { :name => "Bob" }, "http://oe-log-service.herokuapp.com/?foo=bar&bar=baz").should ==
-        "#{api_url}/3.0/projects/12345/events/sign_ups?api_key=#{write_key}&data=eyJuYW1lIjoiQm9iIn0=&redirect=http%3A%2F%2Foe-log-service.herokuapp.com%2F%3Ffoo%3Dbar%26bar%3Dbaz"
+        "#{api_url}/projects/12345/events/sign_ups?api_key=#{write_key}&data=eyJuYW1lIjoiQm9iIn0=&redirect=http%3A%2F%2Foe-log-service.herokuapp.com%2F%3Ffoo%3Dbar%26bar%3Dbaz"
     end
   end
 

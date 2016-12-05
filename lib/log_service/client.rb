@@ -20,7 +20,7 @@ module LogService
 
     CONFIG = {
       api_url: "https://oe-log-service.herokuapp.com",
-      api_version: "3.0",
+      api_version: "1",
       api_headers: lambda { |authorization, sync_or_async|
         user_agent = "log_service_gem, v#{LogService::VERSION}, #{sync_or_async}"
         user_agent += ", #{RUBY_VERSION}, #{RUBY_PLATFORM}, #{RUBY_PATCHLEVEL}"
@@ -103,7 +103,7 @@ module LogService
     def api_event_collection_resource_path(event_collection)
         encoded_collection_name = Addressable::URI.escape(event_collection.to_s)
         encoded_collection_name.gsub! '/', '%2F'
-        "/#{api_version}/projects/#{project_id}/events/#{encoded_collection_name}"
+        "/projects/#{project_id}/events/#{encoded_collection_name}"
     end
 
     def preprocess_params(params)

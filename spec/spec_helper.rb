@@ -61,11 +61,11 @@ module LogService::SpecHelpers
   end
 
   def api_event_collection_resource_url(base_url, collection)
-    "#{base_url}/3.0/projects/#{project_id}/events/#{collection}"
+    "#{base_url}/projects/#{project_id}/events/#{collection}"
   end
 
   def api_event_resource_url(base_url)
-    "#{base_url}/3.0/projects/#{project_id}/events"
+    "#{base_url}/projects/#{project_id}/events"
   end
 end
 

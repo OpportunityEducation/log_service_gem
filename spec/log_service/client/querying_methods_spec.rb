@@ -4,14 +4,14 @@ describe LogService::Client do
   let(:project_id) { "12345" }
   let(:read_key) { "abcde" }
   let(:api_url) { "https://notreal-oe-log-service.herokuapp.com" }
-  let(:api_version) { "3.0" }
+  let(:api_version) { "1" }
   let(:event_collection) { "users" }
   let(:client) { LogService::Client.new(
     :project_id => project_id, :read_key => read_key,
     :api_url => api_url ) }
 
   def query_url(query_name, query_params = "")
-    "#{api_url}/#{api_version}/projects/#{project_id}/queries/#{query_name}#{query_params}"
+    "#{api_url}/projects/#{project_id}/queries/#{query_name}#{query_params}"
   end
 
   describe "querying names" do
@@ -198,12 +198,12 @@ describe LogService::Client do
 
     it "should returns the URL for a query" do
       response = client.query_url('count', event_collection)
-      expect(response).to eq 'https://notreal-oe-log-service.herokuapp.com/3.0/projects/12345/queries/count?event_collection=users&api_key=abcde'
+      expect(response).to eq 'https://notreal-oe-log-service.herokuapp.com/projects/12345/queries/count?event_collection=users&api_key=abcde'
     end
 
     it "should exclude the api key if option is passed" do
       response = client.query_url('count', event_collection, {}, :exclude_api_key => true)
-      expect(response).to eq 'https://notreal-oe-log-service.herokuapp.com/3.0/projects/12345/queries/count?event_collection=users'
+      expect(response).to eq 'https://notreal-oe-log-service.herokuapp.com/projects/12345/queries/count?event_collection=users'
     end
 
     it "should not run the query" do

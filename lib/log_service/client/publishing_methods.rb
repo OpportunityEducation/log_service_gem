@@ -160,7 +160,7 @@ module LogService
       end
 
       def api_events_resource_path
-        "/#{api_version}/projects/#{project_id}/events"
+        "/projects/#{project_id}/events"
       end
 
       def check_event_data!(event_collection, properties)
