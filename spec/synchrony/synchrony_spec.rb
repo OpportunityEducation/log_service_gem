@@ -77,7 +77,7 @@ describe LogService::HTTP::Async do
             e = exception
           end
           e.class.should == LogService::HttpError
-          e.message.should == "OE Log Service Exception: HTTP em-synchrony publish_async error: WebMock timeout error"
+          e.message.should == "Log Service Exception: HTTP em-synchrony publish_async error: WebMock timeout error"
           EM.stop
         }
       end
@@ -94,7 +94,7 @@ describe LogService::HTTP::Async do
             e = exception
           end
           e.class.should == LogService::HttpError
-          e.message.should == "OE Log Service Exception: HTTP em-synchrony publish_async error: WebMock timeout error"
+          e.message.should == "Log Service Exception: HTTP em-synchrony publish_async error: WebMock timeout error"
           EM.stop
         }
       end

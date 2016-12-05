@@ -20,7 +20,7 @@ module LogService
 
     CONFIG = {
       api_url: "https://oe-log-service.herokuapp.com",
-      api_version: "0.2.0",
+      api_version: "3.0",
       api_headers: lambda { |authorization, sync_or_async|
         user_agent = "log_service_gem, v#{LogService::VERSION}, #{sync_or_async}"
         user_agent += ", #{RUBY_VERSION}, #{RUBY_PLATFORM}, #{RUBY_PATCHLEVEL}"

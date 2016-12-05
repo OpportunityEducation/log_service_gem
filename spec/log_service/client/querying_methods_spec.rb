@@ -37,13 +37,13 @@ describe LogService::Client do
       it "should require a project id" do
         expect {
           LogService::Client.new(:read_key => read_key).count("users", {})
-        }.to raise_error(LogService::ConfigurationError, "OE Log Service Exception: Project ID must be set")
+        }.to raise_error(LogService::ConfigurationError, "Log Service Exception: Project ID must be set")
       end
 
       it "should require a read key" do
         expect {
           LogService::Client.new(:project_id => project_id).count("users", {})
-        }.to raise_error(LogService::ConfigurationError, "OE Log Service Exception: Read Key must be set for this operation")
+        }.to raise_error(LogService::ConfigurationError, "Log Service Exception: Read Key must be set for this operation")
       end
     end
 

@@ -47,7 +47,7 @@ describe LogService::Client do
 
   describe "process_response" do
     let (:body) { "{ \"wazzup\": 1 }" }
-    let (:exception_body) { "OE Log Service Exception: { \"wazzup\": 1 }" }
+    let (:exception_body) { "Log Service Exception: { \"wazzup\": 1 }" }
     let (:process_response) { client.method(:process_response) }
 
     it "should return encoded json for a 200" do

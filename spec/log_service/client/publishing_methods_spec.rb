@@ -52,8 +52,8 @@ describe LogService::Client::PublishingMethods do
       end
 
       e.class.should == LogService::HttpError
-      e.original_error.class.should == Timeout::Error
-      e.message.should == "OE Log Service Exception: HTTP publish failure: execution expired"
+      e.original_error.class.should == Net::OpenTimeout
+      e.message.should == "Log Service Exception: HTTP publish failure: execution expired"
     end
 
     it "should raise an exception if client has no project_id" do
@@ -61,7 +61,7 @@ describe LogService::Client::PublishingMethods do
         LogService::Client.new(
           :write_key => "abcde"
         ).publish(collection, event_properties)
-      }.to raise_error(LogService::ConfigurationError, "OE Log Service Exception: Project ID must be set")
+      }.to raise_error(LogService::ConfigurationError, "Log Service Exception: Project ID must be set")
     end
 
     it "should raise an exception if client has no write_key" do
@@ -69,7 +69,7 @@ describe LogService::Client::PublishingMethods do
         LogService::Client.new(
           :project_id => "12345"
         ).publish(collection, event_properties)
-      }.to raise_error(LogService::ConfigurationError, "OE Log Service Exception: Write Key must be set for this operation")
+      }.to raise_error(LogService::ConfigurationError, "Log Service Exception: Write Key must be set for this operation")
     end
 
     context "when using proxy" do
@@ -108,7 +108,7 @@ describe LogService::Client::PublishingMethods do
         LogService::Client.new(
           :write_key => "abcde"
         ).publish_batch(events)
-      }.to raise_error(LogService::ConfigurationError, "OE Log Service Exception: Project ID must be set")
+      }.to raise_error(LogService::ConfigurationError, "Log Service Exception: Project ID must be set")
     end
 
     it "should raise an exception if client has no write_key" do
@@ -116,7 +116,7 @@ describe LogService::Client::PublishingMethods do
         LogService::Client.new(
           :project_id => "12345"
         ).publish_batch(events)
-      }.to raise_error(LogService::ConfigurationError, "OE Log Service Exception: Write Key must be set for this operation")
+      }.to raise_error(LogService::ConfigurationError, "Log Service Exception: Write Key must be set for this operation")
     end
 
     it "should publish a batch of events" do
@@ -201,7 +201,7 @@ describe LogService::Client::PublishingMethods do
             client.publish_async(collection, event_properties).errback { |error|
               begin
                 error.should_not be_nil
-                error.message.should == "OE Log Service Exception: HTTP publish_async failure: WebMock timeout error"
+                error.message.should == "Log Service Exception: HTTP publish_async failure: WebMock timeout error"
               ensure
                 EM.stop
               end
@@ -248,7 +248,7 @@ describe LogService::Client::PublishingMethods do
           LogService::Client.new(
             :write_key => "abcde"
           ).publish_batch_async(events)
-        }.to raise_error(LogService::ConfigurationError, "OE Log Service Exception: Project ID must be set")
+        }.to raise_error(LogService::ConfigurationError, "Log Service Exception: Project ID must be set")
       end
 
       it "should raise an exception if client has no write_key" do
@@ -256,7 +256,7 @@ describe LogService::Client::PublishingMethods do
           LogService::Client.new(
             :project_id => "12345"
           ).publish_batch_async(events)
-        }.to raise_error(LogService::ConfigurationError, "OE Log Service Exception: Write Key must be set for this operation")
+        }.to raise_error(LogService::ConfigurationError, "Log Service Exception: Write Key must be set for this operation")
       end
 
       describe "deferrable callbacks" do
@@ -279,7 +279,7 @@ describe LogService::Client::PublishingMethods do
             client.publish_batch_async(events).errback { |error|
               begin
                 error.should_not be_nil
-                error.message.should == "OE Log Service Exception: HTTP publish_async failure: WebMock timeout error"
+                error.message.should == "Log Service Exception: HTTP publish_async failure: WebMock timeout error"
               ensure
                 EM.stop
               end
@@ -309,13 +309,6 @@ describe LogService::Client::PublishingMethods do
     expect {
       LogService::Client.new.publish_async(collection, event_properties)
     }.to raise_error(LogService::ConfigurationError)
-  end
-
-  describe "#add_event" do
-    it "should alias to publish" do
-      client.should_receive(:publish).with("users", {:a => 1}, {:b => 2})
-      client.add_event("users", {:a => 1}, {:b => 2})
-    end
   end
 
   describe "beacon_url" do
