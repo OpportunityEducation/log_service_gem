@@ -271,7 +271,7 @@ module LogService
       end
 
       def api_query_resource_path(analysis_type)
-        "/projects/#{self.project_id}/queries/#{analysis_type}"
+        "/api/projects/#{self.project_id}/queries/#{analysis_type}"
       end
     end
   end

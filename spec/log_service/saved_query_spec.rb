@@ -160,6 +160,6 @@ describe LogService do
   end
 
   def saved_query_endpoint
-    client.api_url + "/projects/#{client.project_id}/queries/saved"
+    client.api_url + "/api/projects/#{client.project_id}/queries/saved"
   end
 end

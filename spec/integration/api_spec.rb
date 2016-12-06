@@ -14,9 +14,9 @@ describe "OE Log Service API" do
   end
 
   describe "publishing" do
-    let(:collection) { "User posts.new" }
-    let(:event_properties) { { "name" => "Bob" } }
-    let(:api_success) { { "created" => true } }
+    let(:collection) { "login" }
+    let(:event_properties) { { "user" => { "id" => 90, "name" => "Justin Testing" } } }
+    let(:api_success) { {} }
 
     describe "success" do
       it "should return a created status for a valid post" do
@@ -37,61 +37,61 @@ describe "OE Log Service API" do
       end
     end
 
-    describe "async" do
-      # no TLS support in EventMachine on jRuby
-      unless defined?(JRUBY_VERSION)
+    # describe "async" do
+    #   # no TLS support in EventMachine on jRuby
+    #   unless defined?(JRUBY_VERSION)
 
-        it "should publish the event and trigger callbacks" do
-          EM.run {
-            LogService.publish_async(collection, event_properties).callback { |response|
-              begin
-                response.should == api_success
-              ensure
-                EM.stop
-              end
-            }.errback { |error|
-              EM.stop
-              fail error
-            }
-          }
-        end
+    #     it "should publish the event and trigger callbacks" do
+    #       EM.run {
+    #         LogService.publish_async(collection, event_properties).callback { |response|
+    #           begin
+    #             response.should == api_success
+    #           ensure
+    #             EM.stop
+    #           end
+    #         }.errback { |error|
+    #           EM.stop
+    #           fail error
+    #         }
+    #       }
+    #     end
 
-        it "should publish to non-url-safe collections" do
-          EM.run {
-            LogService.publish_async("foo bar", event_properties).callback { |response|
-              begin
-                response.should == api_success
-              ensure
-                EM.stop
-              end
-            }
-          }
-        end
-      end
-    end
+    #     it "should publish to non-url-safe collections" do
+    #       EM.run {
+    #         LogService.publish_async("foo bar", event_properties).callback { |response|
+    #           begin
+    #             response.should == api_success
+    #           ensure
+    #             EM.stop
+    #           end
+    #         }
+    #       }
+    #     end
+    #   end
+    # end
 
-    describe "batch" do
-      it "should publish a batch of events" do
-        LogService.publish_batch(
-          :batch_signups => [
-            { :name => "bob" },
-            { :name => "ted" }
-          ],
-          :batch_purchases => [
-            { :price => 30 },
-            { :price => 40 }
-          ]
-        ).should == {
-          "batch_purchases" => [
-            { "success" => true },
-            { "success" => true }
-          ],
-          "batch_signups" => [
-            { "success" => true },
-            { "success"=>true }
-          ]}
-      end
-    end
+    # describe "batch" do
+    #   it "should publish a batch of events" do
+    #     LogService.publish_batch(
+    #       :batch_signups => [
+    #         { :name => "bob" },
+    #         { :name => "ted" }
+    #       ],
+    #       :batch_purchases => [
+    #         { :price => 30 },
+    #         { :price => 40 }
+    #       ]
+    #     ).should == {
+    #       "batch_purchases" => [
+    #         { "success" => true },
+    #         { "success" => true }
+    #       ],
+    #       "batch_signups" => [
+    #         { "success" => true },
+    #         { "success"=>true }
+    #       ]}
+    #   end
+    # end
   end
 
   describe "batch_async" do

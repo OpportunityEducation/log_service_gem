@@ -52,7 +52,7 @@ class SavedQueries
   end
 
   def saved_query_base_url
-    "/projects/#{client.project_id}/queries/saved"
+    "/api/projects/#{client.project_id}/queries/saved"
   end
 
   def api_headers(authorization, sync_type)

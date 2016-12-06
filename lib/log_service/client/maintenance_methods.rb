@@ -36,7 +36,7 @@ module LogService
 
         begin
           response = http_sync.get(
-              :path => "/projects/#{project_id}/events",
+              :path => "/api/projects/#{project_id}/events",
               :headers => api_headers(self.master_key, "sync"))
         rescue Exception => http_error
           raise HttpError.new("Couldn't perform events on OE Log Service: #{http_error.message}", http_error)
@@ -55,7 +55,7 @@ module LogService
 
         begin
           response = http_sync.get(
-              :path => "/projects/#{project_id}",
+              :path => "/api/projects/#{project_id}",
               :headers => api_headers(self.master_key, "sync"))
         rescue Exception => http_error
           raise HttpError.new("Couldn't perform project info on OE Log Service: #{http_error.message}", http_error)
@@ -74,7 +74,7 @@ module LogService
 
         begin
           response = http_sync.get(
-              :path => "/projects/#{project_id}/events/#{event_collection}",
+              :path => "/api/projects/#{project_id}/events/#{event_collection}",
               :headers => api_headers(self.master_key, "sync"))
         rescue Exception => http_error
           raise HttpError.new("Couldn't perform events on OE Log Service: #{http_error.message}", http_error)

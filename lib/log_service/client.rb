@@ -103,7 +103,7 @@ module LogService
     def api_event_collection_resource_path(event_collection)
         encoded_collection_name = Addressable::URI.escape(event_collection.to_s)
         encoded_collection_name.gsub! '/', '%2F'
-        "/projects/#{project_id}/events/#{encoded_collection_name}"
+        "/api/projects/#{project_id}/events/#{encoded_collection_name}"
     end
 
     def preprocess_params(params)
