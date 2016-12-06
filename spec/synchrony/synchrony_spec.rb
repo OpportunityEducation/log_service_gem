@@ -6,7 +6,7 @@ describe LogService::HTTP::Async do
   let(:collection) { "users" }
   let(:api_url) { "https://fake-oe-log-service.herokuapp.com" }
   let(:event_properties) { { "name" => "Bob" } }
-  let(:api_success) { { "created" => true } }
+  let(:api_success) { true }
   let(:batch_api_success) { { "created" => true } }
   let(:events) {
         {

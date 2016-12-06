@@ -62,13 +62,15 @@ module LogService
 
     def process_response(status_code, response_body)
       case status_code.to_i
-      when 200..201
+      when 200
         begin
           return MultiJson.decode(response_body)
         rescue
           LogService.logger.warn("Invalid JSON for response code #{status_code}: #{response_body}")
           return {}
         end
+      when 201
+        return true
       when 204
         return true
       when 400

@@ -55,7 +55,7 @@ describe LogService::Client do
     end
 
     it "should return encoded json for a 201" do
-      process_response.call(201, body).should == { "wazzup" => 1 }
+      process_response.call(201, body).should == true
     end
 
     it "should return empty for bad json on a 200/201" do

@@ -6,7 +6,7 @@ describe LogService::Client::PublishingMethods do
   let(:api_url) { "https://unreal-oe-log-service.herokuapp.com" }
   let(:collection) { "some :actions_to.record" }
   let(:event_properties) { { "name" => "Bob" } }
-  let(:api_success) { { "created" => true } }
+  let(:api_success) { true }
   let(:client) { LogService::Client.new(
     :project_id => project_id, :write_key => write_key,
     :api_url => api_url) }
@@ -19,7 +19,7 @@ describe LogService::Client::PublishingMethods do
     end
 
     it "should return the proper response" do
-      api_response = { "created" => true }
+      api_response = true
       stub_log_service_post(api_event_collection_resource_url(api_url, collection), 201, api_response)
       client.publish(collection, event_properties).should == api_response
     end
@@ -82,7 +82,7 @@ describe LogService::Client::PublishingMethods do
       end
 
       it "should return the proper response" do
-        api_response = { "created" => true }
+        api_response = true
         stub_log_service_post(api_event_collection_resource_url(api_url, collection), 201, api_response)
         client.publish(collection, event_properties).should == api_response
       end
