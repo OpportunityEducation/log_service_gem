@@ -20,7 +20,7 @@ describe "OE Log Service API" do
 
     describe "success" do
       it "should return a created status for a valid post" do
-        LogService.publish(collection, event_properties).should == api_success
+        expect(LogService.publish(collection, event_properties)).to eq api_success
       end
     end
 
@@ -33,7 +33,7 @@ describe "OE Log Service API" do
       end
 
       it "should succeed if a non-url-safe event collection is specified" do
-        LogService.publish("infinite possibilities", event_properties).should == api_success
+        expect(LogService.publish("infinite possibilities", event_properties)).to eq api_success
       end
     end
 
@@ -45,7 +45,7 @@ describe "OE Log Service API" do
           EM.run {
             LogService.publish_async(collection, event_properties).callback { |response|
               begin
-                response.should == api_success
+                expect(response).to eq api_success
               ensure
                 EM.stop
               end
@@ -60,7 +60,7 @@ describe "OE Log Service API" do
           EM.run {
             LogService.publish_async("foo bar", event_properties).callback { |response|
               begin
-                response.should == api_success
+                expect(response).to eq api_success
               ensure
                 EM.stop
               end

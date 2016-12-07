@@ -8,8 +8,9 @@ describe LogService::Client::PublishingMethods do
   let(:event_properties) { { "name" => "Bob" } }
   let(:api_success) { true }
   let(:client) { LogService::Client.new(
-    :project_id => project_id, :write_key => write_key,
-    :api_url => api_url) }
+    project_id: project_id,
+    write_key: write_key,
+    api_url: api_url) }
 
   describe "publish" do
     it "should post using the collection and properties" do
@@ -21,7 +22,7 @@ describe LogService::Client::PublishingMethods do
     it "should return the proper response" do
       api_response = true
       stub_log_service_post(api_event_collection_resource_url(api_url, collection), 201, api_response)
-      client.publish(collection, event_properties).should == api_response
+      expect(client.publish(collection, event_properties)).to eq api_response
     end
 
     it "should raise an argument error if no event collection is specified" do
@@ -51,9 +52,9 @@ describe LogService::Client::PublishingMethods do
         e = exception
       end
 
-      e.class.should == LogService::HttpError
-      e.original_error.class.should == Net::OpenTimeout
-      e.message.should == "Log Service Exception: HTTP publish failure: execution expired"
+      expect(e.class).to eq LogService::HttpError
+      expect(e.original_error.class).to eq Net::OpenTimeout
+      expect(e.message).to eq "Log Service Exception: HTTP publish failure: execution expired"
     end
 
     it "should raise an exception if client has no project_id" do
@@ -84,7 +85,7 @@ describe LogService::Client::PublishingMethods do
       it "should return the proper response" do
         api_response = true
         stub_log_service_post(api_event_collection_resource_url(api_url, collection), 201, api_response)
-        client.publish(collection, event_properties).should == api_response
+        expect(client.publish(collection, event_properties)).to eq api_response
       end
     end
   end
@@ -187,7 +188,7 @@ describe LogService::Client::PublishingMethods do
           EM.run {
             client.publish_async(collection, event_properties).callback { |response|
               begin
-                response.should == api_success
+                expect(response).to eq api_success
               ensure
                 EM.stop
               end
@@ -200,8 +201,8 @@ describe LogService::Client::PublishingMethods do
           EM.run {
             client.publish_async(collection, event_properties).errback { |error|
               begin
-                error.should_not be_nil
-                error.message.should == "Log Service Exception: HTTP publish_async failure: WebMock timeout error"
+                expect(error).to_not be_nil
+                expect(error.message).to eq "Log Service Exception: HTTP publish_async failure: WebMock timeout error"
               ensure
                 EM.stop
               end
@@ -265,7 +266,7 @@ describe LogService::Client::PublishingMethods do
           EM.run {
             client.publish_batch_async(events).callback { |response|
               begin
-                response.should == api_success
+                expect(response).to eq api_success
               ensure
                 EM.stop
               end
@@ -278,8 +279,8 @@ describe LogService::Client::PublishingMethods do
           EM.run {
             client.publish_batch_async(events).errback { |error|
               begin
-                error.should_not be_nil
-                error.message.should == "Log Service Exception: HTTP publish_async failure: WebMock timeout error"
+                expect(error).to_not be_nil
+                expect(error.message).to eq "Log Service Exception: HTTP publish_async failure: WebMock timeout error"
               ensure
                 EM.stop
               end
@@ -313,15 +314,15 @@ describe LogService::Client::PublishingMethods do
 
   describe "beacon_url" do
     it "should return a url with a base-64 encoded json param" do
-      client.beacon_url("sign_ups", { :name => "Bob" }).should ==
-        "#{api_url}/api/projects/12345/events/sign_ups?api_key=#{write_key}&data=eyJuYW1lIjoiQm9iIn0="
+      expect(client.beacon_url("sign_ups", { :name => "Bob" })).
+        to eq "#{api_url}/api/projects/12345/events/sign_ups?api_key=#{write_key}&data=eyJuYW1lIjoiQm9iIn0="
     end
   end
 
   describe "redirect_url" do
     it "should return a url with a base-64 encoded json param and an encoded redirect url" do
-      client.redirect_url("sign_ups", { :name => "Bob" }, "http://oe-log-service.herokuapp.com/?foo=bar&bar=baz").should ==
-        "#{api_url}/api/projects/12345/events/sign_ups?api_key=#{write_key}&data=eyJuYW1lIjoiQm9iIn0=&redirect=http%3A%2F%2Foe-log-service.herokuapp.com%2F%3Ffoo%3Dbar%26bar%3Dbaz"
+      expect(client.redirect_url("sign_ups", { :name => "Bob" }, "http://oe-log-service.herokuapp.com/?foo=bar&bar=baz")).
+        to eq "#{api_url}/api/projects/12345/events/sign_ups?api_key=#{write_key}&data=eyJuYW1lIjoiQm9iIn0=&redirect=http%3A%2F%2Foe-log-service.herokuapp.com%2F%3Ffoo%3Dbar%26bar%3Dbaz"
     end
   end
 

@@ -41,7 +41,7 @@ describe LogService::HTTP::Async do
       it "should receive the right response 'synchronously'" do
         stub_log_service_post(api_event_collection_resource_url(api_url, collection), 201, api_success)
         EM.synchrony {
-          @client.publish_async(collection, event_properties).should == api_success
+          expect(@client.publish_async(collection, event_properties)).to eq api_success
           EM.stop
         }
       end
@@ -60,7 +60,7 @@ describe LogService::HTTP::Async do
       it "should receive the right response 'synchronously'" do
         stub_log_service_post(api_event_resource_url(api_url), 201, api_success)
         EM.synchrony {
-          @client.publish_batch_async(events).should == api_success
+          expect(@client.publish_batch_async(events)).to eq api_success
           EM.stop
         }
       end
@@ -72,12 +72,12 @@ describe LogService::HTTP::Async do
         e = nil
         EM.synchrony {
           begin
-            @client.publish_async(collection, event_properties).should == api_success
+            expect(@client.publish_async(collection, event_properties)).to eq api_success
           rescue Exception => exception
             e = exception
           end
-          e.class.should == LogService::HttpError
-          e.message.should == "Log Service Exception: HTTP em-synchrony publish_async error: WebMock timeout error"
+          expect(e.class).to eq LogService::HttpError
+          expect(e.message).to eq "Log Service Exception: HTTP em-synchrony publish_async error: WebMock timeout error"
           EM.stop
         }
       end
@@ -89,12 +89,12 @@ describe LogService::HTTP::Async do
         e = nil
         EM.synchrony {
           begin
-            @client.publish_batch_async(events).should == api_success
+            expect(@client.publish_batch_async(events)).to eq api_success
           rescue Exception => exception
             e = exception
           end
-          e.class.should == LogService::HttpError
-          e.message.should == "Log Service Exception: HTTP em-synchrony publish_async error: WebMock timeout error"
+          expect(e.class).to eq LogService::HttpError
+          expect(e.message).to eq "Log Service Exception: HTTP em-synchrony publish_async error: WebMock timeout error"
           EM.stop
         }
       end

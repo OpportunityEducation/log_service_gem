@@ -19,14 +19,14 @@ describe LogService::Client do
 
     ["minimum", "maximum", "sum", "average", "count", "count_unique", "select_unique", "extraction", "multi_analysis", "median", "percentile"].each do |query_name|
       it "should call log service query passing the query name" do
-        client.should_receive(:query).with(query_name.to_sym, event_collection, params, {})
+        expect(client).to receive(:query).with(query_name.to_sym, event_collection, params, {})
         client.send(query_name, event_collection, params)
       end
     end
 
     describe "funnel" do
       it "should call log service query w/o event collection" do
-        client.should_receive(:query).with(:funnel, nil, params, {})
+        expect(client).to receive(:query).with(:funnel, nil, params, {})
         client.funnel(params)
       end
     end
@@ -58,7 +58,7 @@ describe LogService::Client do
         expected_url = query_url(query_name, expected_query_params)
         stub_log_service_get(expected_url, 200, :result => 1)
         response = query.call(query_name, event_collection, extra_query_hash)
-        response.should == api_response["result"]
+        expect(response).to eq api_response["result"]
         expect_log_service_get(expected_url, "sync", read_key)
       end
 
@@ -138,14 +138,14 @@ describe LogService::Client do
         timeframe_str =  CGI.escape(MultiJson.encode(timeframe))
 
         test_query("&timeframe=#{timeframe_str}", options = {:timeframe => timeframe})
-        options.should eq({:timeframe => timeframe})
+        expect(options).to eq({:timeframe => timeframe})
       end
 
       it "should return the full API response if the response option is set to all_keys" do
         expected_url = query_url("funnel", "?steps=#{MultiJson.encode([])}")
         stub_log_service_get(expected_url, 200, :result => [1])
         api_response = query.call("funnel", nil, { :steps => [] }, { :response => :all_keys })
-        api_response.should == { "result" => [1] }
+        expect(api_response).to eq({ "result" => [1] })
       end
 
       it "should call API with post body if method opton is set to post " do
@@ -158,7 +158,7 @@ describe LogService::Client do
         response = query.call("funnel", nil, { :steps => steps }, { :method => :post })
 
         expect_log_service_post(expected_url, { :steps => steps }, "sync", read_key)
-        response.should == api_response["result"]
+        expect(response).to eq api_response["result"]
       end
     end
   end
@@ -171,14 +171,14 @@ describe LogService::Client do
     end
 
     it "should not require params" do
-      client.count(event_collection).should == 10
+      expect(client.count(event_collection)).to eq 10
       expect_log_service_get(url, "sync", read_key)
     end
 
     context "with event collection as symbol" do
       let(:event_collection) { :users }
       it "should not require a string" do
-        client.count(event_collection).should == 10
+        expect(client.count(event_collection)).to eq 10
       end
     end
   end
@@ -188,7 +188,7 @@ describe LogService::Client do
       query_params = "?event_collection=#{event_collection}"
       url = query_url("extraction", query_params)
       stub_log_service_get(url, 200, :result => { "a" => 1 } )
-      client.extraction(event_collection).should == { "a" => 1 }
+      expect(client.extraction(event_collection)).to eq({ "a" => 1 })
       expect_log_service_get(url, "sync", read_key)
     end
   end
@@ -207,7 +207,7 @@ describe LogService::Client do
     end
 
     it "should not run the query" do
-      LogService::HTTP::Sync.should_not receive(:new)
+      expect(LogService::HTTP::Sync).to_not receive(:new)
     end
   end
 end

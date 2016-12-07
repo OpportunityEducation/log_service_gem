@@ -16,27 +16,19 @@ Gem::Specification.new do |s|
   s.add_dependency "addressable", "~> 2.3.5"
 
   # guard
-  unless RUBY_VERSION.start_with? '1.8'
-    s.add_development_dependency 'guard'
-    s.add_development_dependency 'guard-rspec'
+  s.add_development_dependency 'guard'
+  s.add_development_dependency 'guard-rspec'
 
-    # guard cross-platform listener trick
-    s.add_development_dependency 'rb-inotify'
-    s.add_development_dependency 'rb-fsevent'
-    s.add_development_dependency 'rb-fchange'
+  # guard cross-platform listener trick
+  s.add_development_dependency 'rb-inotify'
+  s.add_development_dependency 'rb-fsevent'
+  s.add_development_dependency 'rb-fchange'
 
-    # guard notifications
-    s.add_development_dependency 'ruby_gntp'
+  # guard notifications
+  s.add_development_dependency 'ruby_gntp'
 
-    # fix guard prompt
-    s.add_development_dependency 'rb-readline' # or compile ruby w/ readline
-  end
-
-  # debuggers
-  if /\Aruby/ === RUBY_DESCRIPTION
-    s.add_development_dependency 'ruby-debug' if RUBY_VERSION.start_with? '1.8'
-    s.add_development_dependency 'debugger'   if RUBY_VERSION.start_with? '1.9'
-  end
+  # fix guard prompt
+  s.add_development_dependency 'rb-readline' # or compile ruby w/ readline
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")

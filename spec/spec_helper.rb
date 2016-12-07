@@ -12,7 +12,7 @@ require File.expand_path("../../lib/log_service", __FILE__)
 
 module LogService::SpecHelpers
   def stub_log_service_request(method, url, status, response_body)
-    stub_request(method, url).to_return(:status => status, :body => response_body)
+    stub_request(method, url).to_return(status: status, body: response_body)
   end
 
   def stub_log_service_post(url, status, response_body)
@@ -42,10 +42,13 @@ module LogService::SpecHelpers
                 "User-Agent" => user_agent,
                 "Authorization" => read_or_write_key }
 
-    WebMock.should have_requested(method, url).with(
-      :body => body,
-      :headers => headers)
+    expect(WebMock).to have_requested(method, url).with(
+      body: body,
+      headers: headers)
 
+    # WebMock.should have_requested(method, url).with(
+    #   body: body,
+    #   headers: headers)
   end
 
   def expect_log_service_get(url, sync_or_async_ua, read_key)

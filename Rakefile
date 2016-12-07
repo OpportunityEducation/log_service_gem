@@ -21,5 +21,5 @@ RSpec::Core::RakeTask.new(:pattern) do |t|
   t.pattern = "spec/#{ENV['PATTERN']}/**/*_spec.rb"
 end
 
-task :default => :spec
-task :test => [:spec]
+task default: :spec
+task test: [:spec]

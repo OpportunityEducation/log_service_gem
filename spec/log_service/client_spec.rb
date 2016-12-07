@@ -20,9 +20,9 @@ describe LogService::Client do
     context "deprecated" do
       it "should allow created via project_id and key args" do
         client = LogService::Client.new(project_id, write_key, read_key)
-        client.write_key.should == write_key
-        client.read_key.should == read_key
-        client.project_id.should == project_id
+        expect(client.write_key).to eq write_key
+        expect(client.read_key).to eq read_key
+        expect(client.project_id).to eq project_id
       end
     end
 
@@ -33,15 +33,15 @@ describe LogService::Client do
         :read_key => read_key,
         :api_url => api_url,
         :read_timeout => read_timeout)
-      client.write_key.should == write_key
-      client.read_key.should == read_key
-      client.project_id.should == project_id
-      client.api_url.should == api_url
-      client.read_timeout.should == read_timeout
+      expect(client.write_key).to eq write_key
+      expect(client.read_key).to eq read_key
+      expect(client.project_id).to eq project_id
+      expect(client.api_url).to eq api_url
+      expect(client.read_timeout).to eq read_timeout
     end
 
     it "should set a default api_url" do
-      LogService::Client.new.api_url.should == "https://oe-log-service.herokuapp.com"
+      expect(LogService::Client.new.api_url).to eq "https://oe-log-service.herokuapp.com"
     end
   end
 
@@ -51,15 +51,15 @@ describe LogService::Client do
     let (:process_response) { client.method(:process_response) }
 
     it "should return encoded json for a 200" do
-      process_response.call(200, body).should == { "wazzup" => 1 }
+      expect(process_response.call(200, body)).to eq({ "wazzup" => 1 })
     end
 
     it "should return encoded json for a 201" do
-      process_response.call(201, body).should == true
+      expect(process_response.call(201, body)).to eq true
     end
 
     it "should return empty for bad json on a 200/201" do
-      process_response.call(200, "invalid json").should == {}
+      expect(process_response.call(200, "invalid json")).to eq({})
     end
 
     it "should raise a bad request error for a 400" do
